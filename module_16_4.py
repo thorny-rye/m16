@@ -20,16 +20,10 @@ async def get_query() -> List[User]:
 
 @app.post('/user/{username}/{age}')
 async def post_query(user: User, username: str, age: int):
-    len_users = len(users)
-    if len_users == 0:
-        user.id = 1
-    else:
-        new_id = max(users) + 1
-        user.id = new_id
-    user.username = username
-    user.age = age
-    users.append(user)
-    return user
+    new_id = users[-1].id + 1 if users else 1
+    new_user = User(id=new_id, username=username, age=age)
+    users.append(new_user)
+    return new_user
 
 
 @app.put('/user/{user_id}/{username}/{age}')
